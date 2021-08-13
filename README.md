@@ -1,3 +1,5 @@
+# Firefox about:config Menu Shortcut
+
 Add a menu button on toolbar, which is shortcut to change settings in `about:config`.
 
 Firefox userChrome script. Made on Firefox 91.
