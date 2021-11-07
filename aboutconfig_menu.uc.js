@@ -4,6 +4,12 @@
  * Author: garywill (https://garywill.github.io)
  * 
  */
+
+// ==UserScript==
+// @include         main
+// @onlyonce
+// ==/UserScript==
+
 console.log("aboutconfig_menu.uc.js");
 
 (() => {
@@ -164,126 +170,124 @@ console.log("aboutconfig_menu.uc.js");
         },
     ];
     
-    if (! CustomizableUI.getWidget('aboutconfig-button')){
-        CustomizableUI.createWidget({
-            id: 'aboutconfig-button', // button id
-            type: "custom",
-            defaultArea: CustomizableUI.AREA_NAVBAR,
-            removable: true,
-            onBuild: function (doc) {
-                let btn = doc.createXULElement('toolbarbutton');
-                btn.id = 'aboutconfig-button';
-                btn.label = button_label;
-                btn.tooltipText = button_label;
-                btn.type = 'menu';
-                btn.className = 'toolbarbutton-1 chromeclass-toolbar-additional';
-                
-                let mp = doc.createXULElement("menupopup");
-                mp.id = 'aboutconfig-popup';
-                mp.onclick = function(event) {  event.preventDefault()  ;} ;
-                
-    
-                
-                prefItems.forEach( function (item, items_i) { // loop every user defined pref
-                    
-                    if (item === "seperator") 
-                    {
-                        mp.appendChild(doc.createXULElement('menuseparator'));
-                        return;
-                    }
-                    
-                    //var current_val = getItemCurrentVal(item) ;
-                    var menu = doc.createXULElement("menu");
-                    menu.label = item.name ? item.name : item.pref ;
-                    menu.id = "aboutconfig_menu_" + items_i ;
-                    menu.className = 'menuitem-iconic' ;
-                    
-                
-                    var menupopup = doc.createXULElement("menupopup");
-                    menupopup.id = "aboutconfig_menupopup_" + items_i ;
-                    menupopup.className = 'menuitem-iconic' ;
-                    
+    CustomizableUI.createWidget({
+        id: 'aboutconfig-button', // button id
+        type: "custom",
+        defaultArea: CustomizableUI.AREA_NAVBAR,
+        removable: true,
+        onBuild: function (doc) {
+            let btn = doc.createXULElement('toolbarbutton');
+            btn.id = 'aboutconfig-button';
+            btn.label = button_label;
+            btn.tooltipText = button_label;
+            btn.type = 'menu';
+            btn.className = 'toolbarbutton-1 chromeclass-toolbar-additional';
+            
+            let mp = doc.createXULElement("menupopup");
+            mp.id = 'aboutconfig-popup';
+            mp.onclick = function(event) {  event.preventDefault()  ;} ;
+            
 
-                    
-                    item.possibleVals.forEach( function (pv, i) { // loop every possible value
-                        
-                        var display_val = prefPossibleValToDisplay(item, pv.val) ;
-                        
-                        // Submenu item. One is one possible value
-                        var menuitem = doc.createXULElement("menuitem");
-                        menuitem.label = pv.name ? pv.name : display_val ;
-                        menuitem.id = "aboutconfig_menu_" + items_i + "__" + i  ;
-                        menuitem.setAttribute('type', 'radio') ;
-                        menuitem.className = 'menuitem-iconic' ;
-                        menuitem.tooltipText = display_val ;
-                        
-                        
-                        menuitem.addEventListener('click', function(event) { 
-                            //console.log(this.id); 
-                            setItemPrefVal(item , pv.val);
-                        } ) ;
-                        menupopup.appendChild(menuitem);
-                        
-                    });
-                    
-                    
-                    
-                    var default_val = getItemDefaultVal(item);
-                    var default_val_display = null;
-                    var reset_label = "Reset";
-                    if (default_val !== undefined && default_val !== null)
-                    {
-                        default_val_display = prefPossibleValToDisplay(item, default_val);
-                        reset_label = "Reset to default: " + default_val_display ;
-                    }
-                    
-                    menupopup.appendChild(
-                        doc.createXULElement('menuseparator')
-                    );
-                    
-                    // Submenu entry to reset a pref to default
-                    var default_item = doc.createXULElement("menuitem");
-                    default_item.id = "aboutconfig_menu_" + items_i + "__default" ;
-                    default_item.className = 'menuitem-iconic';
-                    default_item.label = reset_label;
-                    default_item.tooltipText = default_val_display;
+            
+            prefItems.forEach( function (item, items_i) { // loop every user defined pref
+                
+                if (item === "seperator") 
+                {
+                    mp.appendChild(doc.createXULElement('menuseparator'));
+                    return;
+                }
+                
+                //var current_val = getItemCurrentVal(item) ;
+                var menu = doc.createXULElement("menu");
+                menu.label = item.name ? item.name : item.pref ;
+                menu.id = "aboutconfig_menu_" + items_i ;
+                menu.className = 'menuitem-iconic' ;
+                
+            
+                var menupopup = doc.createXULElement("menupopup");
+                menupopup.id = "aboutconfig_menupopup_" + items_i ;
+                menupopup.className = 'menuitem-iconic' ;
+                
 
-                    default_item.addEventListener('click', function(event) { 
+                
+                item.possibleVals.forEach( function (pv, i) { // loop every possible value
+                    
+                    var display_val = prefPossibleValToDisplay(item, pv.val) ;
+                    
+                    // Submenu item. One is one possible value
+                    var menuitem = doc.createXULElement("menuitem");
+                    menuitem.label = pv.name ? pv.name : display_val ;
+                    menuitem.id = "aboutconfig_menu_" + items_i + "__" + i  ;
+                    menuitem.setAttribute('type', 'radio') ;
+                    menuitem.className = 'menuitem-iconic' ;
+                    menuitem.tooltipText = display_val ;
+                    
+                    
+                    menuitem.addEventListener('click', function(event) { 
                         //console.log(this.id); 
-                        //setItemPrefVal(item , getItemDefaultVal(item) );
-                        prefs.clearUserPref(item.pref);
+                        setItemPrefVal(item , pv.val);
                     } ) ;
-                    
-                    menupopup.appendChild(default_item);
-                    
-                    //------------
-                    menu.appendChild(menupopup);
-                    mp.appendChild(menu);
-                    
+                    menupopup.appendChild(menuitem);
                     
                 });
                 
-                btn.appendChild(mp);
-
-                mp.addEventListener('popupshowing', function() { 
-                    //console.log(this);
-                    evalPopulateMenu(this); 
-                    
-                });
-
-                btn.onclick = function(event) {
-                    if (event.button == 1) {
-                        const win = Components.classes["@mozilla.org/appshell/window-mediator;1"]
-                            .getService(Components.interfaces.nsIWindowMediator)
-                            .getMostRecentWindow("navigator:browser");
-                        win.gBrowser.selectedTab = win.gBrowser.addTrustedTab('about:config');
-                    }
-                };
                 
-                return btn;
-            }
-        });
-    }
+                
+                var default_val = getItemDefaultVal(item);
+                var default_val_display = null;
+                var reset_label = "Reset";
+                if (default_val !== undefined && default_val !== null)
+                {
+                    default_val_display = prefPossibleValToDisplay(item, default_val);
+                    reset_label = "Reset to default: " + default_val_display ;
+                }
+                
+                menupopup.appendChild(
+                    doc.createXULElement('menuseparator')
+                );
+                
+                // Submenu entry to reset a pref to default
+                var default_item = doc.createXULElement("menuitem");
+                default_item.id = "aboutconfig_menu_" + items_i + "__default" ;
+                default_item.className = 'menuitem-iconic';
+                default_item.label = reset_label;
+                default_item.tooltipText = default_val_display;
+
+                default_item.addEventListener('click', function(event) { 
+                    //console.log(this.id); 
+                    //setItemPrefVal(item , getItemDefaultVal(item) );
+                    prefs.clearUserPref(item.pref);
+                } ) ;
+                
+                menupopup.appendChild(default_item);
+                
+                //------------
+                menu.appendChild(menupopup);
+                mp.appendChild(menu);
+                
+                
+            });
+            
+            btn.appendChild(mp);
+
+            mp.addEventListener('popupshowing', function() { 
+                //console.log(this);
+                evalPopulateMenu(this); 
+                
+            });
+
+            btn.onclick = function(event) {
+                if (event.button == 1) {
+                    const win = Components.classes["@mozilla.org/appshell/window-mediator;1"]
+                        .getService(Components.interfaces.nsIWindowMediator)
+                        .getMostRecentWindow("navigator:browser");
+                    win.gBrowser.selectedTab = win.gBrowser.addTrustedTab('about:config');
+                }
+            };
+            
+            return btn;
+        }
+    });
     
     function getItemDefaultVal (item) {
         var default_val = undefined;
