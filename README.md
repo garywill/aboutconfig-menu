@@ -12,6 +12,8 @@ Defaultly this script includes:
 
 - IPv6 enable/disable
 - DNS related setting
+- Enable deprecated TLS version
+- Mouse wheel scroll speed
 - Resisting fingerprint (also webExtension addons recommend: [Toggle Resist Fingerprinting](https://github.com/Aaron-P/ToggleResistFingerprinting) and  [Toggle Web Custom Font](https://github.com/garywill/toggleWebCustomFont) )
 - HTTP referer control ( despite this, recommend webExtension addon [Auto Referer](https://github.com/garywill/autoreferer) )
 - Browser Toolbox connecting confirm
