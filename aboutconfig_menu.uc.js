@@ -53,6 +53,15 @@ console.log("aboutconfig_menu.uc.js");
                 { name: "NextDNS" , val: "https://firefox.dns.nextdns.io/" }
             ] // See buildin DoH at 'network.trr.resolvers'
         },
+        {
+            name: "Enable deprecated TLS version",
+            type: prefs.PREF_BOOL,
+            pref: "security.tls.version.enable-deprecated",
+            possibleVals: [
+                {  val: false },
+                {  val: true },
+            ]
+        },
         "seperator",
         {
             name: "Allow web custom fonts",
