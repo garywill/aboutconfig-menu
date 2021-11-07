@@ -64,6 +64,15 @@ console.log("aboutconfig_menu.uc.js");
         },
         "seperator",
         {
+            name: "Mouse Wheel Y Multiplier",
+            type: prefs.PREF_INT,
+            pref: "mousewheel.default.delta_multiplier_y",
+            possibleVals: [
+                { val: 250 },
+            ]
+        },
+        "seperator",
+        {
             name: "Allow web custom fonts",
             type: prefs.PREF_INT,
             pref: "browser.display.use_document_fonts",
