@@ -1,6 +1,6 @@
 /* Firefox userChrome script
  * Shortcut menu to modify about:config entries
- * Tested on Firefox 91
+ * Tested on Firefox 102
  * Author: garywill (https://garywill.github.io)
  * 
  */
@@ -32,7 +32,7 @@ console.log("aboutconfig_menu.uc.js");
 
     var prefItems = [ 
         {
-            name: "Disable IPv6",
+            name: "🌐 Disable IPv6",
             type: prefs.PREF_BOOL,
             pref: "network.dns.disableIPv6",
             possibleVals: [
@@ -41,17 +41,17 @@ console.log("aboutconfig_menu.uc.js");
             ]
         },
         {
-            name: "DNS mode",
+            name: "🔐 DNS mode",
             type: prefs.PREF_INT,
             pref: "network.trr.mode",
             possibleVals: [
-                { name: "Plain DNS" , val: 0 },
-                { name: "DoH, fallback Plain DNS" , val: 2 },
-                { name: "DoH only" , val: 3 }
+                { name: "0 - Plain DNS" , val: 0 },
+                { name: "2 - DoH, fallback Plain DNS" , val: 2 },
+                { name: "3 - DoH only" , val: 3 }
             ]
         },
         {
-            name: "DoH server",
+            name: "🔐 DoH server",
             type: prefs.PREF_STRING,
             pref: "network.trr.custom_uri",
             possibleVals: [
@@ -60,35 +60,87 @@ console.log("aboutconfig_menu.uc.js");
             ] // See buildin DoH at 'network.trr.resolvers'
         },
         {
-            name: "Enable deprecated TLS version",
+            name: "🔏 Enable deprecated TLS version",
             type: prefs.PREF_BOOL,
             pref: "security.tls.version.enable-deprecated",
             possibleVals: [
-                {  val: false },
-                {  val: true },
+                { val: false  },
+                { name: "true ⚠️",  val: true , sign: '‼️'},
             ]
         },
         "seperator",
         {
-            name: "Mouse Wheel Y Multiplier",
+            name: "🖱️ Mouse Wheel Y Multiplier",
             type: prefs.PREF_INT,
             pref: "mousewheel.default.delta_multiplier_y",
             possibleVals: [
                 { val: 250 },
             ]
         },
+        {
+            name: "🖱️ System scroll vertical factor",
+            type: prefs.PREF_INT,
+            pref: "mousewheel.system_scroll_override.vertical.factor",
+            possibleVals: [
+                { val: 250 },
+            ]
+        },
         "seperator",
         {
-            name: "Allow web custom fonts",
+            name: "▶️ Media Autoplay Default",
             type: prefs.PREF_INT,
-            pref: "browser.display.use_document_fonts",
+            pref: "media.autoplay.default",
             possibleVals: [
-                { name: "Allow", val: 1 },
-                { name: "Disallow", val: 0 },
+                { val: 0, name: "0 - allow" },
+                { val: 1, name: "1 - blockAudible 👍" },
+                { val: 5, name: "5 - blockAll" },
             ]
         },
         {
-            name: "Resist Fingerprinting",
+            name: "▶️ Media Autoplay ext bg",
+            type: prefs.PREF_BOOL,
+            pref: "media.autoplay.allow-extension-background-pages",
+            possibleVals: [
+                {  val: false  },
+                {  val: true },
+            ]
+        },
+        {
+            name: "▶️ Media Autoplay blocking policy",
+            type: prefs.PREF_INT,
+            pref: "media.autoplay.blocking_policy",
+            possibleVals: [
+                { val: 0, name: "0 - no block" },
+                { val: 1, name: "1 - block 👍" },
+                { val: 2, name: "2 - block more" },
+                //* 0=sticky (default), 1=transient, 2=user
+            ]
+        },
+ 
+ 
+        "seperator",
+        {
+            name: "🔤 Allow web custom fonts",
+            type: prefs.PREF_INT,
+            pref: "browser.display.use_document_fonts",
+            possibleVals: [
+                { name: "1 - Allow", val: 1 },
+                { name: "0 - Disallow", val: 0 },
+            ]
+        },
+        {
+            name: "🔤 CSS font visibility",
+            type: prefs.PREF_INT,
+            pref: "layout.css.font-visibility.level",
+            possibleVals: [
+                {  val: 1, name:"1 - only base system fonts" },
+                {  val: 2, name:"2 - also fonts from optional language packs" },
+                {  val: 3, name:"3 - also user-installed fonts" },
+            ]
+        },
+        "seperator",
+        {
+            name: "🛡️ Resist Fingerprinting",
             type: prefs.PREF_BOOL,
             pref: "privacy.resistFingerprinting",
             possibleVals: [
@@ -97,7 +149,7 @@ console.log("aboutconfig_menu.uc.js");
             ]
         },
         {
-            name: "Resist Fingerprinting Auto Decline NoUserInput Canvas",
+            name: "🛡️ Resist Fingerprinting Auto Decline NoUserInput Canvas",
             type: prefs.PREF_BOOL,
             pref: "privacy.resistFingerprinting.autoDeclineNoUserInputCanvasPrompts",
             possibleVals: [
@@ -106,66 +158,66 @@ console.log("aboutconfig_menu.uc.js");
             ]
         },
         {
-            name: "Resist Fingerprinting LetterBoxing",
+            name: "🛡️ Resist Fingerprinting LetterBoxing",
             type: prefs.PREF_BOOL,
             pref: "privacy.resistFingerprinting.letterboxing",
             possibleVals: [
                 {  val: false },
                 {  val: true },
-            ]
+            ], 
         },
         "seperator",
         // https://wiki.mozilla.org/Security/Referrer
         {
-            name: "Default Referrer Policy",
+            name: "🛡️ Default Referrer Policy",
             type: prefs.PREF_INT,
             pref: "network.http.referer.defaultPolicy",
             possibleVals: [
-                { name: "no-referrer", val: 0 },
-                { name: "same-origin", val: 1 },
-                { name: "strict-origin-when-cross-origin", val: 2 },
-                { name: "no-referrer-when-downgrade", val: 3 },
+                { name: "0 - no-referrer", val: 0 },
+                { name: "1 - same-origin", val: 1 },
+                { name: "2 - strict-origin-when-cross-origin", val: 2 },
+                { name: "3 - no-referrer-when-downgrade", val: 3 },
  
             ]
         },
         {
-            name: "Referrer Across Origins",
+            name: "🛡️ Referrer Across Origins",
             type: prefs.PREF_INT,
             pref: "network.http.referer.XOriginPolicy",
             possibleVals: [
-                { name: "send the referrer in all cases", val: 0 },
-                { name: "send a referrer only when the base domains are the same", val: 1 },
-                { name: "send a referrer only on same-origin", val: 2 },
+                { name: "0 - send the referrer in all cases", val: 0 },
+                { name: "1 - send a referrer only when the base domains are the same", val: 1 },
+                { name: "2 - send a referrer only on same-origin", val: 2 },
             ]
         },
         {
-            name: "How much referrer to send regardless of origin",
+            name: "🛡️ How much referrer to send regardless of origin",
             type: prefs.PREF_INT,
             pref: "network.http.referer.trimmingPolicy",
             possibleVals: [
-                { name: "send the full URL", val: 0 },
-                { name: "send the URL without its query string", val: 1 },
-                { name: "only send the origin", val: 2 },
+                { name: "0 - send the full URL", val: 0 },
+                { name: "1 - send the URL without its query string", val: 1 },
+                { name: "2 - only send the origin", val: 2 },
             ]
         },
         {
-            name: "How much referrer to send across origins",
+            name: "🛡️ How much referrer to send across origins",
             type: prefs.PREF_INT,
             pref: "network.http.referer.XOriginTrimmingPolicy",
             possibleVals: [
-                { name: "send the full URL", val: 0 },
-                { name: "send the URL without its query string", val: 1 },
-                { name: "only send the origin", val: 2 },
+                { name: "0 - send the full URL", val: 0 },
+                { name: "1 - send the URL without its query string", val: 1 },
+                { name: "2 - only send the origin", val: 2 },
             ]
         },
         "seperator",
         {
-            name: "DevTool comfirm on connection",
+            name: "💻 DevTool comfirm on connection",
             type: prefs.PREF_BOOL,
             pref: "devtools.debugger.prompt-connection",
             possibleVals: [
-                {  val: true },
-                {  val: false },
+                {  val: true  },
+                { name: "false ⚠️",   val: false , sign: '‼️' },
             ]
         },
     ];
@@ -221,6 +273,9 @@ console.log("aboutconfig_menu.uc.js");
                     menuitem.setAttribute('type', 'radio') ;
                     menuitem.className = 'menuitem-iconic' ;
                     menuitem.tooltipText = display_val ;
+
+                    if (pv ['sign'])
+                        menuitem.label += '　　' + pv['sign']; 
                     
                     
                     menuitem.addEventListener('click', function(event) { 
@@ -235,12 +290,16 @@ console.log("aboutconfig_menu.uc.js");
                 
                 var default_val = getItemDefaultVal(item);
                 var default_val_display = null;
-                var reset_label = "Reset";
+                var reset_label = "Reset: ";
+                if (item.signWhenDefaultVal)
+                    reset_label += item.signWhenDefaultVal + '　' ;
                 if (default_val !== undefined && default_val !== null)
                 {
                     default_val_display = prefPossibleValToDisplay(item, default_val);
-                    reset_label = "Reset to default: " + default_val_display ;
+                    reset_label += default_val_display ;
                 }
+                else
+                    reset_label += ' (delete in about:config)'
                 
                 menupopup.appendChild(
                     doc.createXULElement('menuseparator')
@@ -348,21 +407,54 @@ console.log("aboutconfig_menu.uc.js");
     
     function evalPopulateMenu(popupmenu)
     {
-
         prefItems.forEach( function (item, items_i) {
             if (item === "seperator") 
                 return;
+            
+            const menu = popupmenu.querySelector("#aboutconfig_menu_" + items_i);
+            menu.label = item.name ? item.name : item.pref ;
+            menu.style.fontWeight = "";
+            
+            const default_val = getItemDefaultVal(item);
                     
             var current_val = getItemCurrentVal(item) ;
             var current_val_display = prefPossibleValToDisplay(item, current_val);
+            menu.tooltipText = `Pref: ${item.pref}\nValue: ${current_val_display}`;
+            
+            if (current_val !== null)
+            {
+                if (item.type == prefs.PREF_BOOL) 
+                    menu.label += '　　[' + ( current_val?'T':'F' ) + ']';
+                else if (item.type == prefs.PREF_INT) 
+                    menu.label += '　　[' + current_val + ']';
+                else if (item.type == prefs.PREF_STRING) {
+                    var current_val_display_short;
+                    
+                    if (current_val.length > 8)
+                        current_val_display_short = current_val.substring(0, 6) + '..'; 
+                    else 
+                        current_val_display_short = current_val;
+                    
+                    menu.label += '　　[' + current_val_display_short + ']';
+                }
+            } 
+            
+            if (current_val !== default_val)
+                menu.style.fontWeight = "bold";
+            
+            if (current_val === default_val && item.signWhenDefaultVal)
+                menu.label += '　　' + item.signWhenDefaultVal;
 
-            popupmenu.querySelector("#aboutconfig_menu_" + items_i).tooltipText = `Pref: ${item.pref}\nValue: ${current_val_display}`;
+            
             item.possibleVals.forEach( function (pv, i) {
-
                 menuitem = popupmenu.querySelector("#aboutconfig_menu_" + items_i + "__" + i);
-
                 if ( if_pref_current_val_is(item, i) )
+                { 
                     menuitem.setAttribute("checked",true);
+                 
+                    if (pv ['sign'])
+                        menu.label += '　　' + pv['sign'];
+                }
                 else 
                     menuitem.setAttribute("checked",false);
             });
@@ -372,4 +464,3 @@ console.log("aboutconfig_menu.uc.js");
     
     
 })();
-
