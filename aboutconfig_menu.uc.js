@@ -29,8 +29,8 @@ console.log("aboutconfig_menu.uc.js");
 
     sss.loadAndRegisterSheet(cssuri_icon, sss.USER_SHEET);
   
-
-    var prefItems = [ 
+    
+    var prefItems = [   
         {
             name: "🌐 Disable IPv6",
             type: prefs.PREF_BOOL,
@@ -68,7 +68,9 @@ console.log("aboutconfig_menu.uc.js");
                 { name: "true ⚠️",  val: true , sign: '‼️'},
             ]
         },
-        "seperator",
+
+
+        "seperator",    // ---------------------------
         {
             name: "🖱️ Mouse Wheel Y Multiplier",
             type: prefs.PREF_INT,
@@ -85,7 +87,9 @@ console.log("aboutconfig_menu.uc.js");
                 { val: 250 },
             ]
         },
-        "seperator",
+
+
+        "seperator",    // ---------------------------
         {
             name: "▶️ Media Autoplay Default",
             type: prefs.PREF_INT,
@@ -116,9 +120,9 @@ console.log("aboutconfig_menu.uc.js");
                 //* 0=sticky (default), 1=transient, 2=user
             ]
         },
- 
- 
-        "seperator",
+
+
+        "seperator",    // ---------------------------
         {
             name: "🔤 Allow web custom fonts",
             type: prefs.PREF_INT,
@@ -138,7 +142,17 @@ console.log("aboutconfig_menu.uc.js");
                 {  val: 3, name:"3 - also user-installed fonts" },
             ]
         },
-        "seperator",
+        {
+            name: "🔤 font.system.whitelist",
+            type: prefs.PREF_STRING,
+            pref: "font.system.whitelist",
+            possibleVals: [
+                {  val: "" },
+                {  val: "sans, serif, monospace",  },
+            ]
+        },
+ 
+        "seperator",    // ---------------------------
         {
             name: "🛡️ Resist Fingerprinting",
             type: prefs.PREF_BOOL,
@@ -166,7 +180,37 @@ console.log("aboutconfig_menu.uc.js");
                 {  val: true },
             ], 
         },
-        "seperator",
+
+        "seperator",    // ---------------------------
+        {
+            name: "🔤 Accept Languages",
+            type: prefs.PREF_STRING,
+            pref: "intl.accept_languages",
+            possibleVals: [
+                { name: "en-US, en",  val: "en-US, en" },
+            ] 
+        },    
+        {
+            name: "🔤 Font Language Group",
+            type: prefs.PREF_STRING,
+            pref: "font.language.group",
+            possibleVals: [
+                { name: "x-western",  val: "x-western" },
+                // { name: "en-US",  val: "en-US" }, // any machine actually uses this ???
+            ] 
+        },   
+        {
+            name: "🔤 JS use English locale",
+            type: prefs.PREF_BOOL,
+            pref: "javascript.use_us_english_locale",
+            possibleVals: [
+                {  val: false },
+                {  val: true },
+            ] 
+        }, 
+
+
+        "seperator",    // ---------------------------
         // https://wiki.mozilla.org/Security/Referrer
         {
             name: "🛡️ Default Referrer Policy",
@@ -210,7 +254,7 @@ console.log("aboutconfig_menu.uc.js");
                 { name: "2 - only send the origin", val: 2 },
             ]
         },
-        "seperator",
+        "seperator",    // ---------------------------
         {
             name: "💻 DevTool comfirm on connection",
             type: prefs.PREF_BOOL,

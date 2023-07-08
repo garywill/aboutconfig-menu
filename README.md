@@ -16,6 +16,7 @@ Defaultly this script includes:
 - Mouse wheel scroll speed
 - Autoplay policy
 - Resisting fingerprint (also webExtension addons recommend: [Toggle Resist Fingerprinting](https://github.com/Aaron-P/ToggleResistFingerprinting) and  [Toggle Web Custom Font](https://github.com/garywill/toggleWebCustomFont) )
+- Some locale language related settings
 - HTTP referer control ( despite this, recommend webExtension addon [Auto Referer](https://github.com/garywill/autoreferer) )
 - Browser Toolbox connecting confirm
 
