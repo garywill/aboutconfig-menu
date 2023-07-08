@@ -2,7 +2,7 @@
 
 Add a menu button on toolbar, which is shortcut to change settings in `about:config`.
 
-Firefox userChrome script. Tested on Firefox 102. 
+Firefox userChrome script. Tested on Firefox 115.
 
 ![](https://preview.redd.it/onmgncgvb3j71.png?width=621&format=png&auto=webp&s=b99bab85467a891846da05593b4f9279f70ea789)
 

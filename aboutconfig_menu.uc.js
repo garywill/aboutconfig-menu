@@ -1,6 +1,6 @@
 /* Firefox userChrome script
  * Shortcut menu to modify about:config entries
- * Tested on Firefox 102
+ * Tested on Firefox 115
  * Author: garywill (https://garywill.github.io)
  * 
  */
@@ -22,11 +22,22 @@ console.log("aboutconfig_menu.uc.js");
     // ---------------------------------------------------------------------------------------
     
     const button_label = "about:config shortcut menu";
-    const cssuri_icon = Services.io.newURI("data:text/css;charset=utf-8," + encodeURIComponent('\
-            #aboutconfig-button .toolbarbutton-icon {\
-                list-style-image: url("resource:///chrome/browser/skin/classic/browser/ion.svg"); \
-            }'), null, null);
-
+    const cssuri_icon = Services.io.newURI("data:text/css;charset=utf-8," + encodeURIComponent(`
+            toolbarbutton#aboutconfig-button .toolbarbutton-icon {
+                list-style-image: url("resource:///chrome/browser/skin/classic/browser/ion.svg"); 
+            }
+            toolbarbutton#aboutconfig-button .toolbarbutton-badge {
+                background-color: #009f00;
+                visibility: hidden; 
+            }           
+            `), null, null);
+    const cssuri_warnbadge = Services.io.newURI("data:text/css;charset=utf-8," + encodeURIComponent(`
+            toolbarbutton#aboutconfig-button .toolbarbutton-badge {
+                background-color: red ;
+                visibility: unset;
+            } 
+            `), null, null);
+   
     sss.loadAndRegisterSheet(cssuri_icon, sss.USER_SHEET);
   
     
@@ -278,6 +289,8 @@ console.log("aboutconfig_menu.uc.js");
             btn.tooltipText = button_label;
             btn.type = 'menu';
             btn.className = 'toolbarbutton-1 chromeclass-toolbar-additional';
+            btn.setAttribute("badged", "true"); 
+            btn.setAttribute("badge", "!"); 
             
             let mp = doc.createXULElement("menupopup");
             mp.id = 'aboutconfig-popup';
@@ -377,6 +390,8 @@ console.log("aboutconfig_menu.uc.js");
                 //console.log(this);
                 evalPopulateMenu(this); 
                 
+                update_badge();
+                
             });
 
             btn.onclick = function(event) {
@@ -386,6 +401,8 @@ console.log("aboutconfig_menu.uc.js");
                         .getMostRecentWindow("navigator:browser");
                     win.gBrowser.selectedTab = win.gBrowser.addTrustedTab('about:config');
                 }
+                
+                update_badge();
             };
             
             return btn;
@@ -437,6 +454,8 @@ console.log("aboutconfig_menu.uc.js");
             prefs.setIntPref(item.pref, newVal);
         else if ( item.type == prefs.PREF_STRING )
             prefs.setStringPref(item.pref, newVal);
+        
+        update_badge();
     }
     function prefPossibleValToDisplay(item, possible_val ) {
         if (possible_val === null) 
@@ -505,6 +524,47 @@ console.log("aboutconfig_menu.uc.js");
         });
     }
     
+    function add_warnbadge()
+    {
+        if ( ! sss.sheetRegistered(cssuri_warnbadge, sss.USER_SHEET) )
+             sss.loadAndRegisterSheet(cssuri_warnbadge, sss.USER_SHEET);
+    }
+    function rm_warnbadge()
+    {
+        if ( sss.sheetRegistered(cssuri_warnbadge, sss.USER_SHEET) )
+             sss.unregisterSheet(cssuri_warnbadge, sss.USER_SHEET);
+    }
+    
+    update_badge();
+    async function update_badge()
+    {
+        
+        var show_warnbadge = false;
+        
+        for (item of prefItems)
+        {
+            if (typeof(item) === "string")
+                continue;
+            
+            const current_val = getItemCurrentVal(item) ;
+            if (
+                item.possibleVals.some ( function(ele) {
+                    return ( ele ['val'] === current_val && ele ['warnbadge'] && ele ['warnbadge'] === true );
+                } )
+            )
+            {
+                show_warnbadge = true;
+                break;
+            }
+        }
+             
+        
+        if (show_warnbadge)
+            add_warnbadge();
+        else 
+            rm_warnbadge();
+    }
     
     
 })();
+    
