@@ -64,7 +64,7 @@ console.log("aboutconfig_menu.uc.js");
         {
             name: "🔐 DoH server",
             type: prefs.PREF_STRING,
-            pref: "network.trr.custom_uri",
+            pref: "network.trr.uri",
             possibleVals: [
                 { name: "Cloudflare" , val: "https://mozilla.cloudflare-dns.com/dns-query" },
                 { name: "NextDNS" , val: "https://firefox.dns.nextdns.io/" }
