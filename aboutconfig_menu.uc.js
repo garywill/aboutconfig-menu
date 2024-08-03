@@ -1,6 +1,6 @@
 /* Firefox userChrome script
  * Shortcut menu to modify about:config entries
- * Tested on Firefox 115
+ * Tested on Firefox 128
  * Author: garywill (https://garywill.github.io)
  * 
  */
@@ -17,7 +17,7 @@ console.log("aboutconfig_menu.uc.js");
 
     const prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
     Components.utils.import("resource:///modules/CustomizableUI.jsm");
-    const {Services} = Components.utils.import("resource://gre/modules/Services.jsm", {});
+    const Services = globalThis.Services || ChromeUtils.import("resource://gre/modules/Services.jsm").Services; 
     const sss = Components.classes["@mozilla.org/content/style-sheet-service;1"].getService(Components.interfaces.nsIStyleSheetService);
     // ---------------------------------------------------------------------------------------
     
@@ -56,9 +56,10 @@ console.log("aboutconfig_menu.uc.js");
             type: prefs.PREF_INT,
             pref: "network.trr.mode",
             possibleVals: [
-                { name: "0 - Plain DNS" , val: 0 },
+                { name: "0 - Default" , val: 0 },
                 { name: "2 - DoH, fallback Plain DNS" , val: 2 },
-                { name: "3 - DoH only" , val: 3 }
+                { name: "3 - DoH only" , val: 3 }, 
+                { name: "5 - Plain DNS" , val: 5 }
             ]
         },
         {
