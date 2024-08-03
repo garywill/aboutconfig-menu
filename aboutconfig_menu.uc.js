@@ -131,7 +131,15 @@ console.log("aboutconfig_menu.uc.js");
                 //* 0=sticky (default), 1=transient, 2=user
             ]
         },
-
+        {
+            name: "▶️ WebAudio",
+            type: prefs.PREF_BOOL,
+            pref: "dom.webaudio.enabled",
+            possibleVals: [
+                {  val: false },
+                {  val: true  ,  sign: '‼️' , warnbadge: true},
+            ]
+        },
 
         "seperator",    // ---------------------------
         {
