@@ -1,6 +1,6 @@
 /* Firefox userChrome script
  * Shortcut menu to modify about:config entries
- * Tested on Firefox 128
+ * Tested on Firefox 140
  * Author: garywill (https://garywill.github.io)
  * 
  */
@@ -525,7 +525,6 @@ console.log("aboutconfig_menu.uc.js");
     update_badge();
     async function update_badge()
     {
-        
         var show_warnbadge = false;
         
         for (let item of prefItems)
@@ -551,7 +550,23 @@ console.log("aboutconfig_menu.uc.js");
         else 
             rm_warnbadge();
     }
-    
+
+    for (let item of prefItems)
+    {
+        if (typeof(item) === "string")
+            continue;
+
+        for (let pv of item.possibleVals)
+        {
+            if (pv['warnbadge'] === true)
+            {
+                console.log(`Add observer of ${item.pref}`);
+                prefs.addObserver(item.pref, update_badge, false);
+                break;
+            }
+        }
+    }
+
     
 })();
     
