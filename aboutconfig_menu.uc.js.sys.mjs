@@ -75,29 +75,9 @@ console.log("aboutconfig_menu.uc.js");
             pref: "security.tls.version.enable-deprecated",
             possibleVals: [
                 { val: false  },
-                { name: "true ⚠️",  val: true , sign: '‼️'},
+                { name: "true ⚠️",  val: true , sign: '‼️' , warnbadge: true},
             ]
         },
-
-
-        "seperator",    // ---------------------------
-        {
-            name: "🖱️ Mouse Wheel Y Multiplier",
-            type: prefs.PREF_INT,
-            pref: "mousewheel.default.delta_multiplier_y",
-            possibleVals: [
-                { val: 250 },
-            ]
-        },
-        {
-            name: "🖱️ System scroll vertical factor",
-            type: prefs.PREF_INT,
-            pref: "mousewheel.system_scroll_override.vertical.factor",
-            possibleVals: [
-                { val: 250 },
-            ]
-        },
-
 
         "seperator",    // ---------------------------
         {
@@ -136,7 +116,7 @@ console.log("aboutconfig_menu.uc.js");
             pref: "dom.webaudio.enabled",
             possibleVals: [
                 {  val: false },
-                {  val: true  ,  sign: '‼️' , warnbadge: true},
+                {  val: true  ,  sign: '‼️'},
             ]
         },
 
@@ -279,7 +259,7 @@ console.log("aboutconfig_menu.uc.js");
             pref: "devtools.debugger.prompt-connection",
             possibleVals: [
                 {  val: true  },
-                { name: "false ⚠️",   val: false , sign: '‼️' },
+                { name: "false ⚠️",   val: false , sign: '‼️' , warnbadge: true},
             ]
         },
     ];

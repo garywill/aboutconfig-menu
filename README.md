@@ -13,7 +13,6 @@ Defaultly this script includes:
 - IPv6 enable/disable
 - DNS related setting
 - Enable deprecated TLS version
-- Mouse wheel scroll speed
 - Autoplay policy
 - WebAudio
 - Resisting fingerprint (also webExtension addons recommend: [Toggle Resist Fingerprinting](https://github.com/Aaron-P/ToggleResistFingerprinting) and  [Toggle Web Custom Font](https://github.com/garywill/toggleWebCustomFont) )
