@@ -5,10 +5,6 @@
  * 
  */
 
-// ==UserScript==
-// @include         main
-// @onlyonce
-// ==/UserScript==
 
 console.log("aboutconfig_menu.uc.js");
 
@@ -16,23 +12,25 @@ console.log("aboutconfig_menu.uc.js");
   
 
     const prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
-    Components.utils.import("resource:///modules/CustomizableUI.jsm");
+    const { CustomizableUI } = ChromeUtils.importESModule("resource:///modules/CustomizableUI.sys.mjs");
     const Services = globalThis.Services || ChromeUtils.import("resource://gre/modules/Services.jsm").Services; 
     const sss = Components.classes["@mozilla.org/content/style-sheet-service;1"].getService(Components.interfaces.nsIStyleSheetService);
     // ---------------------------------------------------------------------------------------
     
+    const widgetBtnId = "aboutconfig-button";
     const button_label = "about:config shortcut menu";
     const cssuri_icon = Services.io.newURI("data:text/css;charset=utf-8," + encodeURIComponent(`
-            toolbarbutton#aboutconfig-button .toolbarbutton-icon {
-                list-style-image: url("resource:///chrome/browser/skin/classic/browser/ion.svg"); 
+            toolbarbutton#${widgetBtnId} .toolbarbutton-icon {
+                list-style-image: url("chrome://global/skin/icons/heart.svg");
+                fill: #0000ff;
             }
-            toolbarbutton#aboutconfig-button .toolbarbutton-badge {
+            toolbarbutton#${widgetBtnId} .toolbarbutton-badge {
                 background-color: #009f00;
                 visibility: hidden; 
             }           
             `), null, null);
     const cssuri_warnbadge = Services.io.newURI("data:text/css;charset=utf-8," + encodeURIComponent(`
-            toolbarbutton#aboutconfig-button .toolbarbutton-badge {
+            toolbarbutton#${widgetBtnId} .toolbarbutton-badge {
                 background-color: red ;
                 visibility: unset;
             } 
@@ -287,13 +285,13 @@ console.log("aboutconfig_menu.uc.js");
     ];
     
     CustomizableUI.createWidget({
-        id: 'aboutconfig-button', // button id
+        id: widgetBtnId, // button id
         type: "custom",
         defaultArea: CustomizableUI.AREA_NAVBAR,
         removable: true,
         onBuild: function (doc) {
             let btn = doc.createXULElement('toolbarbutton');
-            btn.id = 'aboutconfig-button';
+            btn.id = widgetBtnId;
             btn.label = button_label;
             btn.tooltipText = button_label;
             btn.type = 'menu';
@@ -519,7 +517,7 @@ console.log("aboutconfig_menu.uc.js");
 
             
             item.possibleVals.forEach( function (pv, i) {
-                menuitem = popupmenu.querySelector("#aboutconfig_menu_" + items_i + "__" + i);
+                var menuitem = popupmenu.querySelector("#aboutconfig_menu_" + items_i + "__" + i);
                 if ( if_pref_current_val_is(item, i) )
                 { 
                     menuitem.setAttribute("checked",true);
@@ -550,7 +548,7 @@ console.log("aboutconfig_menu.uc.js");
         
         var show_warnbadge = false;
         
-        for (item of prefItems)
+        for (let item of prefItems)
         {
             if (typeof(item) === "string")
                 continue;
