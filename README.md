@@ -2,7 +2,7 @@
 
 Add a menu button on toolbar, which is shortcut to change settings in `about:config`.
 
-Firefox userChrome script. Tested on Firefox 140.
+Firefox userChrome script. Tested on Firefox 153.
 
 ![](https://preview.redd.it/onmgncgvb3j71.png?width=621&format=png&auto=webp&s=b99bab85467a891846da05593b4f9279f70ea789)
 
@@ -10,11 +10,12 @@ Firefox userChrome script. Tested on Firefox 140.
 
 Defaultly this script includes:
 
+- DOM clipboard events enable/disable
 - IPv6 enable/disable
 - DNS related setting
-- Enable deprecated TLS version
+- Enable/disable deprecated TLS version
 - Autoplay policy
-- WebAudio
+- WebAudio enable/disable
 - Resisting fingerprint (also webExtension addons recommend: [Toggle Resist Fingerprinting](https://github.com/Aaron-P/ToggleResistFingerprinting) and  [Toggle Web Custom Font](https://github.com/garywill/toggleWebCustomFont) )
 - Some locale language and font related settings
 - HTTP referer control ( despite this, recommend webExtension addon [Auto Referer](https://github.com/garywill/autoreferer) )

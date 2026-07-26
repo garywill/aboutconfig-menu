@@ -1,6 +1,6 @@
 /* Firefox userChrome script
  * Shortcut menu to modify about:config entries
- * Tested on Firefox 140
+ * Tested on Firefox 153
  * Author: garywill (https://garywill.github.io)
  * 
  */
@@ -12,7 +12,7 @@ console.log("aboutconfig_menu.uc.js");
   
 
     const prefs = Components.classes["@mozilla.org/preferences-service;1"].getService(Components.interfaces.nsIPrefService);
-    const { CustomizableUI } = ChromeUtils.importESModule("resource:///modules/CustomizableUI.sys.mjs");
+    const { CustomizableUI } = ChromeUtils.importESModule("moz-src:///browser/components/customizableui/CustomizableUI.sys.mjs");
     const Services = globalThis.Services || ChromeUtils.import("resource://gre/modules/Services.jsm").Services; 
     const sss = Components.classes["@mozilla.org/content/style-sheet-service;1"].getService(Components.interfaces.nsIStyleSheetService);
     // ---------------------------------------------------------------------------------------
@@ -40,6 +40,17 @@ console.log("aboutconfig_menu.uc.js");
   
     
     var prefItems = [   
+        {
+            name: "📋 DOM clipboard events",
+            type: prefs.PREF_BOOL,
+            pref: "dom.event.clipboardevents.enabled",
+            possibleVals: [
+                {  val: false },
+                {  val: true },
+            ]
+        },
+
+        "seperator",    // ---------------------------
         {
             name: "🌐 Disable IPv6",
             type: prefs.PREF_BOOL,
@@ -506,7 +517,7 @@ console.log("aboutconfig_menu.uc.js");
                         menu.label += '　　' + pv['sign'];
                 }
                 else 
-                    menuitem.setAttribute("checked",false);
+                    menuitem.removeAttribute("checked");
             });
         });
     }
